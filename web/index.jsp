@@ -13,7 +13,9 @@
     </head>
     <body>
         <h1>Calculadora</h1>
+        
         <%=request.getAttribute("resultado")!=null ? request.getParameter("op1")+request.getParameter("oper")+request.getParameter("op2")+"="+request.getAttribute("resultado"):""%>
+        <%=request.getAttribute("error1")!=null ? request.getParameter("error1"):""%>
         <br>
         <p>Introduzca números con los que operar</p>
         <br>

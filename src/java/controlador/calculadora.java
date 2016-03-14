@@ -35,13 +35,26 @@ public class calculadora extends HttpServlet {
         
         try (PrintWriter out = response.getWriter()) {
            
-            if(!errores)
-            int op1 = Integer.parseInt(request.getParameter("op1"));
-            int op2 = Integer.parseInt(request.getParameter("op2"));
+            
+
+            float op1 = Float.parseFloat(request.getParameter("op1"));
+            float op2 = Float.parseFloat(request.getParameter("op2"));
             String oper = (String) request.getParameter("oper"); 
-            Integer result = operar(oper, op1, op2);
-            request.setAttribute("resultado", result);
-            request.getRequestDispatcher("calculadora.jsp").forward(request, response);
+            
+            String error1;
+            float result;
+            if(divCero(oper, op2)) {
+                error1="Error, división por 0";
+                request.setAttribute("error1", error1);
+            } 
+            else {
+                result = operar(oper, op1, op2);               
+                request.setAttribute("resultado", result);
+            }
+
+             request.getRequestDispatcher("index.jsp").forward(request, response);
+            
+           
             
             
             /* TODO output your page here. You may use following sample code. */
@@ -57,9 +70,9 @@ public class calculadora extends HttpServlet {
         }
     }
     
-    protected Integer operar(String oper, Integer op1, Integer op2)
+    protected float operar(String oper, float op1, float op2)
     {
-        Integer resultado=0;
+        float resultado=0;
         switch (oper)
         {
             case("+"): resultado=op1+op2;
@@ -74,9 +87,14 @@ public class calculadora extends HttpServlet {
         return resultado;
     }
     
-    private static boolean divCero(String oper, Integer op2)
+    private static boolean divCero(String oper, float op2)
     {
-        return true;
+        if(oper.equals("/") && op2==0){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     
     private static boolean isNumeric(String cadena){
